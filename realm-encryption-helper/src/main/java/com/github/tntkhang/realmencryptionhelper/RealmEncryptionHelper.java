@@ -24,6 +24,8 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
+import khangtran.preferenceshelper.PreferencesHelper;
+
 /**
  * Created by KhangTran on 3/31/2017.
  */
@@ -39,17 +41,23 @@ public class RealmEncryptionHelper {
     private static final String SHARED_PREFERENCE_NAME = "SHARED_PREFERENCE_NAME";
     private static final String ENCRYPTED_KEY = "ENCRYPTED_KEY";
 
+    private String mKeyName = "KEY_NAME";
+
     private KeyStore keyStore;
 
-    public static RealmEncryptionHelper getInstance(Context context) {
+    private PreferencesHelper mPrefsHelper;
+
+    public static RealmEncryptionHelper getInstance(Context context, String keyName) {
         if (instance == null) {
-            instance = new RealmEncryptionHelper(context);
+            instance = new RealmEncryptionHelper(context, keyName);
         }
         return instance;
     }
 
-    private RealmEncryptionHelper(Context context) {
+    private RealmEncryptionHelper(Context context, String keyName) {
         this.mContext = context;
+        this.mKeyName = keyName;
+        mPrefsHelper = PreferencesHelper.initHelper(context);
     }
 
     @SuppressWarnings("NewApi")
@@ -59,7 +67,7 @@ public class RealmEncryptionHelper {
             keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
             keyStore.load(null);
 
-            Log.i("tntkhang", "Not containsAlias: " + !keyStore.containsAlias(mContext.getString(R.string.app_name)));
+            Log.i("tntkhang", "Not containsAlias: " + !keyStore.containsAlias(mKeyName));
             if (!keyStore.containsAlias(mContext.getString(R.string.app_name))) {
                 // Create new key and save to KeyStore
                 KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
@@ -101,8 +109,7 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] getSecretKey() {
-        SharedPreferences pref = mContext.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        String encryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);
+        String encryptedKeyB64 = mPrefsHelper.getStringValue(ENCRYPTED_KEY, null);
         byte[] key = new byte[64];
         try {
             byte[] encryptedKey = Base64.decode(encryptedKeyB64, Base64.DEFAULT);
@@ -120,16 +127,13 @@ public class RealmEncryptionHelper {
     private byte[] setSecretKey() {
         byte[] key = new byte[64];
         try {
-            SharedPreferences pref = mContext.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-            String encryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);
+            String encryptedKeyB64 = mPrefsHelper.getStringValue(ENCRYPTED_KEY, null);
             if (encryptedKeyB64 == null) {
                 SecureRandom secureRandom = new SecureRandom();
                 secureRandom.nextBytes(key);
                 byte[] encryptedKey = rsaEncrypt(key);
                 encryptedKeyB64 = Base64.encodeToString(encryptedKey, Base64.DEFAULT);
-                SharedPreferences.Editor edit = pref.edit();
-                edit.putString(ENCRYPTED_KEY, encryptedKeyB64);
-                edit.apply();
+                mPrefsHelper.setValue(ENCRYPTED_KEY, encryptedKeyB64);
                 Log.i("tntkhang", "setSecretKey string: " + encryptedKeyB64);
             }
         } catch (Exception e) {
@@ -140,7 +144,7 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] rsaEncrypt(byte[] secret) throws Exception {
-        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mContext.getString(R.string.app_name), null);
+        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mKeyName, null);
         Cipher inputCipher = Cipher.getInstance(RSA_MODE);
         inputCipher.init(Cipher.ENCRYPT_MODE, privateKeyEntry.getCertificate().getPublicKey());
 
@@ -153,7 +157,7 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] rsaDecrypt(byte[] encrypted) throws Exception {
-        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mContext.getString(R.string.app_name), null);
+        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mKeyName, null);
         Cipher output = Cipher.getInstance(RSA_MODE);
         output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
         CipherInputStream cipherInputStream = new CipherInputStream(

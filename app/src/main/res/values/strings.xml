@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RealmEncryptionHelperDemo</string>
+    <string name="get_key">Get Encryption Key</string>
 </resources>
