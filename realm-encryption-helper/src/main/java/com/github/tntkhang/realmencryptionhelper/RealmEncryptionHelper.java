@@ -59,7 +59,7 @@ public class RealmEncryptionHelper {
             keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
             keyStore.load(null);
 
-            Log.i("johan", "Not containsAlias: " + !keyStore.containsAlias(mContext.getString(R.string.app_name)));
+            Log.i("tntkhang", "Not containsAlias: " + !keyStore.containsAlias(mContext.getString(R.string.app_name)));
             if (!keyStore.containsAlias(mContext.getString(R.string.app_name))) {
                 // Create new key and save to KeyStore
                 KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
@@ -96,7 +96,7 @@ public class RealmEncryptionHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("johan", "encryptedKey: " + encryptedKey.length + " -- " + Arrays.toString(encryptedKey));
+        Log.i("tntkhang", "encryptedKey: " + encryptedKey.length + " -- " + Arrays.toString(encryptedKey));
         return encryptedKey;
     }
 
@@ -111,9 +111,9 @@ public class RealmEncryptionHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("johan", "getSecretKey string: " + encryptedKeyB64);
+        Log.i("tntkhang", "getSecretKey string: " + encryptedKeyB64);
 
-        Log.i("johan", "getSecretKey key: " + Arrays.toString(key));
+        Log.i("tntkhang", "getSecretKey key: " + Arrays.toString(key));
         return key;
     }
 
@@ -130,12 +130,12 @@ public class RealmEncryptionHelper {
                 SharedPreferences.Editor edit = pref.edit();
                 edit.putString(ENCRYPTED_KEY, encryptedKeyB64);
                 edit.apply();
-                Log.i("johan", "setSecretKey string: " + encryptedKeyB64);
+                Log.i("tntkhang", "setSecretKey string: " + encryptedKeyB64);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("johan", "setSecretKey key: " + Arrays.toString(key));
+        Log.i("tntkhang", "setSecretKey key: " + Arrays.toString(key));
         return key;
     }
 
