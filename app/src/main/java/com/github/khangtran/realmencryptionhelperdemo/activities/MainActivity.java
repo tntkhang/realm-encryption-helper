@@ -11,9 +11,6 @@ import android.widget.Toast;
 import com.github.khangtran.realmencryptionhelperdemo.R;
 import com.github.khangtran.realmencryptionhelperdemo.models.User;
 import com.github.khangtran.realmencryptionhelperdemo.realmdao.UserDAO;
-import com.github.tntkhang.realmencryptionhelper.RealmEncryptionHelper;
-
-import java.util.Arrays;
 
 import io.realm.Realm;
 

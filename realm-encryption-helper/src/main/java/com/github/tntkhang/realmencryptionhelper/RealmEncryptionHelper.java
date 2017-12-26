@@ -1,7 +1,6 @@
 package com.github.tntkhang.realmencryptionhelper;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
@@ -38,7 +37,6 @@ public class RealmEncryptionHelper {
 
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     private static final String RSA_MODE =  "RSA/ECB/PKCS1Padding";
-    private static final String SHARED_PREFERENCE_NAME = "SHARED_PREFERENCE_NAME";
     private static final String ENCRYPTED_KEY = "ENCRYPTED_KEY";
 
     private String mKeyName = "KEY_NAME";
@@ -50,6 +48,13 @@ public class RealmEncryptionHelper {
     public static RealmEncryptionHelper initHelper(Context context, String keyName) {
         if (instance == null) {
             instance = new RealmEncryptionHelper(context, keyName);
+        }
+        return instance;
+    }
+
+    public static RealmEncryptionHelper getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("Null instance. You must call initHelper() before using.");
         }
         return instance;
     }
@@ -96,7 +101,7 @@ public class RealmEncryptionHelper {
                     kpg.initialize(spec);
                 }
                 kpg.generateKeyPair();
-                encryptedKey = setSecretKey();
+                encryptedKey = generate64BitSecretKey();
             } else {
                 // Get key from KeyStore
                 encryptedKey = getSecretKey();
@@ -124,7 +129,7 @@ public class RealmEncryptionHelper {
         return key;
     }
 
-    private byte[] setSecretKey() {
+    private byte[] generate64BitSecretKey() {
         byte[] key = new byte[64];
         try {
             String encryptedKeyB64 = mPrefsHelper.getStringValue(ENCRYPTED_KEY, null);
@@ -134,12 +139,12 @@ public class RealmEncryptionHelper {
                 byte[] encryptedKey = rsaEncrypt(key);
                 encryptedKeyB64 = Base64.encodeToString(encryptedKey, Base64.DEFAULT);
                 mPrefsHelper.setValue(ENCRYPTED_KEY, encryptedKeyB64);
-                Log.i("tntkhang", "setSecretKey string: " + encryptedKeyB64);
+                Log.i("tntkhang", "generate64BitSecretKey string: " + encryptedKeyB64);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("tntkhang", "setSecretKey key: " + Arrays.toString(key));
+        Log.i("tntkhang", "generate64BitSecretKey key: " + Arrays.toString(key));
         return key;
     }
 
