@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RealmEncryptionHelperDemo</string>
-    <string name="get_key">Get Encryption Key</string>
+    <string name="get_user">Get User</string>
+    <string name="save_user">Save User</string>
+    <string name="input_user_name">User name...</string>
+    <string name="hello_demo">Hello from Realm Encryption Demo !</string>
 </resources>

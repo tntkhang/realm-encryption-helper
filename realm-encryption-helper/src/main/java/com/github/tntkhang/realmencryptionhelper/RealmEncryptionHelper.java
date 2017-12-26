@@ -47,7 +47,7 @@ public class RealmEncryptionHelper {
 
     private PreferencesHelper mPrefsHelper;
 
-    public static RealmEncryptionHelper getInstance(Context context, String keyName) {
+    public static RealmEncryptionHelper initHelper(Context context, String keyName) {
         if (instance == null) {
             instance = new RealmEncryptionHelper(context, keyName);
         }
