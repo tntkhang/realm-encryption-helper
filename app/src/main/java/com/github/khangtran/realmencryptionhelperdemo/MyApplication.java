@@ -21,18 +21,10 @@ public class MyApplication extends Application {
 
         Realm.init(this);
 
-        RealmConfiguration config;
-
-        if (BuildConfig.DEBUG) {
-            config = new RealmConfiguration.Builder()
-                    .name("myrealm.realm")
-                    .build();
-        } else {
-            config = new RealmConfiguration.Builder()
-                    .name("myrealm.realm")
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                    .name("realm_encryption_demo.realm")
                     .encryptionKey(realmEncryptionHelper.getEncryptKey())
                     .build();
-        }
 
         Realm.setDefaultConfiguration(config);
     }
