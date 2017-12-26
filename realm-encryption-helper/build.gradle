@@ -9,7 +9,7 @@ ext {
     libraryName = 'realm-encryption-helper'
     artifact = 'realm-encryption-helper'     // Has to be same as your library module name
 
-    libraryDescription = 'Android Library to make easy to config and using SharePreferences'
+    libraryDescription = 'A lightweight library for generate encrypt key and save to KeyStore for Realm'
 
     // Your github repo link
     siteUrl = 'https://github.com/tntkhang/realm-encryption-helper'
