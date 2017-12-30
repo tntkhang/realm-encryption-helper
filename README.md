@@ -1,5 +1,5 @@
 # realm-encryption-helper
-<img src="https://img.shields.io/badge/Android%20Arsenal-RealmEncryptionHelper-green.svg?style=flat">
+<img src="https://img.shields.io/badge/Android%20Arsenal-RealmEncryptionHelper-green.svg?style=flat" link="https://android-arsenal.com/details/1/6617">
 
 This is a lightweight library to generate a 64-bit random key and using **AES Algorithm** to encrypt/decrypt that random number to get a Secret Key and save it to Key Store.
 
