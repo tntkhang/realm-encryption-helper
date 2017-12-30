@@ -1,5 +1,6 @@
 # realm-encryption-helper
-<img src="https://img.shields.io/badge/Android%20Arsenal-RealmEncryptionHelper-green.svg?style=flat" link="https://android-arsenal.com/details/1/6617">
+
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-RealmEncryptionHelper-green.svg?style=flat )]( https://android-arsenal.com/details/1/6617 )
 
 This is a lightweight library to generate a 64-bit random key and using **AES Algorithm** to encrypt/decrypt that random number to get a Secret Key and save it to Key Store.
 
@@ -7,7 +8,7 @@ This library especially supports for Realm Encryption. That means when using you
 
 **Support all android version**
 
-**Setup and using**
+# Setup and using
 
 1. Add library to your build.gradle in app level
 ```
@@ -38,7 +39,7 @@ realmEncryptionHelper.getEncryptKey()
 The library will check and generate a new key if your app doesn't contain the key in Key Store before and then save it to Key Store, otherwise, it will be got from Key Store.
 
 
-**DEMO**
+# DEMO
 
 Download and run project for simple demo
 
