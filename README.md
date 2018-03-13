@@ -12,10 +12,7 @@ This library especially supports for Realm Encryption. That means when using you
 
 1. Add library to your build.gradle in app level
 ```
-implementation 'com.github.tntkhang:preferences-helper:1.0.0'
-implementation ('com.github.tntkhang:realm-encryption-helper:1.0.0') {
-    transitive=true
-}
+implementation 'com.github.tntkhang:realm-encryption-helper:1.0.1'
 ```
 
 
