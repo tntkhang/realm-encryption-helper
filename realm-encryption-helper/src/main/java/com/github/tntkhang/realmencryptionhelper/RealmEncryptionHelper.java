@@ -1,7 +1,9 @@
 package com.github.tntkhang.realmencryptionhelper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
@@ -23,8 +25,6 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.security.auth.x500.X500Principal;
 
-import khangtran.preferenceshelper.PreferencesHelper;
-
 /**
  * Created by KhangTran on 3/31/2017.
  */
@@ -43,7 +43,7 @@ public class RealmEncryptionHelper {
 
     private KeyStore keyStore;
 
-    private PreferencesHelper mPrefsHelper;
+    private SharedPreferences mPrefsHelper;
 
     public static RealmEncryptionHelper initHelper(Context context, String keyName) {
         if (instance == null) {
@@ -62,7 +62,7 @@ public class RealmEncryptionHelper {
     private RealmEncryptionHelper(Context context, String keyName) {
         this.mContext = context;
         this.mKeyName = keyName;
-        mPrefsHelper = PreferencesHelper.initHelper(context);
+        mPrefsHelper = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @SuppressWarnings("NewApi")
@@ -114,7 +114,7 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] getSecretKey() {
-        String encryptedKeyB64 = mPrefsHelper.getStringValue(ENCRYPTED_KEY, null);
+        String encryptedKeyB64 = mPrefsHelper.getString(ENCRYPTED_KEY, null);
         byte[] key = new byte[64];
         try {
             byte[] encryptedKey = Base64.decode(encryptedKeyB64, Base64.DEFAULT);
@@ -132,13 +132,13 @@ public class RealmEncryptionHelper {
     private byte[] generate64BitSecretKey() {
         byte[] key = new byte[64];
         try {
-            String encryptedKeyB64 = mPrefsHelper.getStringValue(ENCRYPTED_KEY, null);
+            String encryptedKeyB64 = mPrefsHelper.getString(ENCRYPTED_KEY, null);
             if (encryptedKeyB64 == null) {
                 SecureRandom secureRandom = new SecureRandom();
                 secureRandom.nextBytes(key);
                 byte[] encryptedKey = rsaEncrypt(key);
                 encryptedKeyB64 = Base64.encodeToString(encryptedKey, Base64.DEFAULT);
-                mPrefsHelper.setValue(ENCRYPTED_KEY, encryptedKeyB64);
+                mPrefsHelper.edit().putString(ENCRYPTED_KEY, encryptedKeyB64).apply();
                 Log.i("tntkhang", "generate64BitSecretKey string: " + encryptedKeyB64);
             }
         } catch (Exception e) {
