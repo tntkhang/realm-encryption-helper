@@ -2,6 +2,8 @@
 
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-RealmEncryptionHelper-green.svg?style=flat )]( https://android-arsenal.com/details/1/6617 )
 
+[ ![Download](https://api.bintray.com/packages/tntkhang/maven/realm-encryption-helper/images/download.svg) ](https://bintray.com/tntkhang/maven/realm-encryption-helper/_latestVersion)
+
 This is a lightweight library to generate a 64-bit random key and using **AES Algorithm** to encrypt/decrypt that random number to get a Secret Key and save it to Key Store.
 
 This library especially supports for Realm Encryption. That means when using you don't have to care about how to get a random key, where to save that key for safe,... this library will take it.
