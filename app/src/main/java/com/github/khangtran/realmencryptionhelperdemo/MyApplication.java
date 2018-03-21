@@ -16,16 +16,15 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        // Config RealmEncryptionHelper
         RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(this, getString(R.string.app_name));
 
+        // Config Realm
         Realm.init(this);
-
         RealmConfiguration config = new RealmConfiguration.Builder()
-                    .name("realm_encryption_demo.realm")
-                    .encryptionKey(realmEncryptionHelper.getEncryptKey())
+                    .name("realm_encrypt.realm")
+                    .encryptionKey(realmEncryptionHelper.getEncryptKey()) // Call realmEncryptionHelper to get encrypt key for encrypting
                     .build();
-
         Realm.setDefaultConfiguration(config);
     }
 }
