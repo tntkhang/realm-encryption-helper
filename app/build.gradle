@@ -27,5 +27,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation project(':realm-encryption-helper')
+//    implementation project(':realm-encryption-helper')
+    implementation 'com.github.tntkhang:realm-encryption-helper:1.0.1'
 }

@@ -67,7 +67,7 @@ public class RealmEncryptionHelper {
             keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
             keyStore.load(null);
 
-            Log.i("tntkhang", "Not containsAlias: " + !keyStore.containsAlias(mKeyName));
+            Log.i("tntkhang", "Not containsAlias: " + !keyStore.containsAlias(mContext.getString(R.string.app_name)));
             if (!keyStore.containsAlias(mContext.getString(R.string.app_name))) {
                 // Create new key and save to KeyStore
                 KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
